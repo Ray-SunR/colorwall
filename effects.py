@@ -182,6 +182,51 @@ class Rainbow(Effect):
         time.sleep(1)
 
 
+class Plotting(Effect):
+	def run(self):
+		start_time = time.time()
+		cycle = 1
+		switch = False
+		value = 1
+		while time.time() - start_time < 10:
+			num_colors = self.wall.width * self.wall.height
+			for x in range(self.wall.width):
+				for y in range(self.wall.height):
+					hue = 1.0 / num_colors * (y * self.wall.width + x)
+					sat = random.random()
+					print(value)
+					if switch:
+						value += 0.1
+					else:
+						value -= 0.1
+
+					if value <= 0 and value - 0 <= 0.1:
+						value = 0
+						switch = True
+					if value >= 1 and value - 1 <= 0.1:
+						value = 1
+						switch = False
+
+					self.wall.set_pixel(x, y, (hue, sat, value))
+			time.sleep(0.2)
+			cycle += 1
+			self.wall.draw()
+
+
+class NoName(Effect):
+	def run(self):
+		start_time = time.time()
+		while time.time() - start_time < 5:
+			x = random.randint(0, self.wall.width - 1)
+			y = random.randint(0, self.wall.height - 1)
+			hue = random.uniform(0, 1)
+			sat = random.uniform(0, 1)
+			value = random.random()
+			self.wall.set_pixel(x, y, (hue, sat, value))
+			self.wall.draw()
+			time.sleep(.01)
+
+
 class Twinkle(Effect):
     def run(self):
         start_time = time.time()
@@ -467,6 +512,6 @@ class Message(Effect):
             col += 1
             time.sleep(0.07)
 
-Effects = [SolidColorTest, RainbowTest, HueTest, SaturationTest, ValueTest, DictionaryTest,
+Effects = [Plotting, SolidColorTest, RainbowTest, NoName, HueTest, SaturationTest, ValueTest, DictionaryTest,
            LetterTest, Checkerboards, Columns, Rainbow, Twinkle, KnightMoves,
            Matrix, Bouncer, Message]
